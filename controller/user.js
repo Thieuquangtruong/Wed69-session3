@@ -1,6 +1,22 @@
 const fs = require('fs') // thư viện đọc file
 const readFile = require('../utils/readfile')
+const jwt = require("jsonwebtoken")
 
+const login = (req, res) => {
+    const userId = req.query.userId
+    const result = readFile("user.json")
+    const checkUser = result.find(item => item.userId == userId)
+    
+    if(!checkUser){
+        return res.status(401).json({messgae: "dang nhap that bai"})
+    }
+
+    const token = jwt.sign({userId: checkUser.userId}, process.env.SECRET_KEY, {
+        expiresIn: "1s"
+    })
+    
+    return res.status(200).json({token, message:"dang nhap thanh cong"})
+}
 const getUser = (req, res) => {
     const data = fs.readFileSync('user.json')
     const result = readFile('user.json')
@@ -42,5 +58,6 @@ const deleteUser = (req, res) => {
 module.exports = {
     getUser,
     createUser,
-    deleteUser
+    deleteUser,
+    login
 }

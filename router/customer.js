@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {getCustomer,createCustomer,deleteCustomer} = require('../controller/customer')
+const {getCustomer, createCustomer, deleteCustomer} = require('../controller/customer')
 
 router.get('/', getCustomer)
 
